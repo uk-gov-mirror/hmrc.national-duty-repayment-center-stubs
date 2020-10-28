@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.config
+package uk.gov.hmrc.nationaldutyrepaymentcenter.models
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+sealed trait Claimant
 
-@Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
+object Claimant extends Enumerable.Implicits {
+  case object Importer extends WithName("01") with Claimant
+  case object RepresentativeOfTheImporter extends WithName("02") with Claimant
 
-  val authBaseUrl: String = servicesConfig.baseUrl("auth")
+  val values: Seq[Claimant] = Seq(
+    Importer,
+    RepresentativeOfTheImporter
+  )
 
-  val auditingEnabled: Boolean = config.get[Boolean]("auditing.enabled")
-  val graphiteHost: String     = config.get[String]("microservice.metrics.graphite.host")
+  implicit val enumerable: Enumerable[Claimant] =
+    Enumerable(values.map(v => v.toString -> v): _*)
 }
