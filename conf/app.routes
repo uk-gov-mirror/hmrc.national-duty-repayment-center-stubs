@@ -1,3 +1,4 @@
 # microservice specific routes
 
-GET        /hello-world             uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.MicroserviceHelloWorldController.hello
+POST         /create-case                       @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.createCaseMDTPStub
+
