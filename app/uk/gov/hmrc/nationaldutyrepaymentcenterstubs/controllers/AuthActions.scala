@@ -20,7 +20,7 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.auth.core.AuthProvider.GovernmentGateway
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.config.AppConfig
+import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
 
 import scala.concurrent.{ExecutionContext, Future}
 

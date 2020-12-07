@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.config
+package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring
 
 import com.google.inject.ImplementedBy
 import javax.inject.Inject

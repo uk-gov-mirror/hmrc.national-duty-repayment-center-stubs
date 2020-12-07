@@ -3,10 +3,10 @@ package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers
 import play.api.mvc.Result
 import play.api.mvc.Results._
 import play.api.test.FakeRequest
-import uk.gov.hmrc.auth.core.{AuthConnector, AuthorisationException, InsufficientEnrolments}
+import uk.gov.hmrc.auth.core.{AuthConnector, AuthorisationException}
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.config.AppConfig
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.support.AppBaseISpec
+import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
 
 import scala.concurrent.Future
 

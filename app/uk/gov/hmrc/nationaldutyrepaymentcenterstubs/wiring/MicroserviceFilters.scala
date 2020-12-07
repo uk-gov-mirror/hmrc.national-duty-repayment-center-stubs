@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.connectors
+package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring
 
 import javax.inject.{Inject, Singleton}
-import uk.gov.hmrc.auth.core.PlayAuthConnector
-import uk.gov.hmrc.http.HttpPost
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
+import play.api.http.DefaultHttpFilters
+import uk.gov.hmrc.play.bootstrap.filters.{CacheControlFilter, LoggingFilter}
 
 @Singleton
-class MicroserviceAuthConnector @Inject()(appConfig: AppConfig, val http: HttpPost)
-    extends PlayAuthConnector {
-
-  override val serviceUrl: String = appConfig.authBaseUrl
-}
+class MicroserviceFilters @Inject() (
+  loggingFilter: LoggingFilter,
+  cacheFilter: CacheControlFilter
+) extends DefaultHttpFilters(
+      loggingFilter,
+      cacheFilter
+    )
