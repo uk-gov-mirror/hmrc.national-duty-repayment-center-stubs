@@ -15,6 +15,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 abstract class BaseISpec extends UnitSpec with WireMockSupport {
 
   def app: Application
+
   protected def appBuilder: GuiceApplicationBuilder
 
   override def commonStubs(): Unit = {}
@@ -29,6 +30,7 @@ abstract class BaseISpec extends UnitSpec with WireMockSupport {
   }
 
   private lazy val messagesApi = app.injector.instanceOf[MessagesApi]
+
   private implicit def messages: Messages = messagesApi.preferred(Seq.empty[Lang])
 
   protected def htmlEscapedMessage(key: String): String = HtmlFormat.escape(Messages(key)).toString

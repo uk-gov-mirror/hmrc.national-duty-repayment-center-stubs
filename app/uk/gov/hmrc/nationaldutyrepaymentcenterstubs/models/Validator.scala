@@ -44,14 +44,15 @@ object Validator {
     (entity: (A, B)) => constraintA(entity._1).combine(constraintB(entity._2))
 
   def product[A, B, C](
-    constraintA: Validate[A],
-    constraintB: Validate[B],
-    constraintC: Validate[C]
-  ): Validate[(A, B, C)] =
+                        constraintA: Validate[A],
+                        constraintB: Validate[B],
+                        constraintC: Validate[C]
+                      ): Validate[(A, B, C)] =
     (entity: (A, B, C)) =>
       constraintA(entity._1).combine(constraintB(entity._2)).combine(constraintC(entity._3))
 
   private type SimpleValidator[T] = T => Validated[String, Unit]
+
   def validate[T](constraints: SimpleValidator[T]*): Validate[T] =
     (entity: T) =>
       constraints
@@ -76,10 +77,10 @@ object Validator {
     (entity: T) => validator(element(entity))
 
   def checkObjectIfSome[T, E](
-    element: T => Option[E],
-    validator: Validate[E],
-    isValidIfNone: Boolean = true
-  ): Validate[T] =
+                               element: T => Option[E],
+                               validator: Validate[E],
+                               isValidIfNone: Boolean = true
+                             ): Validate[T] =
     (entity: T) =>
       element(entity)
         .map(validator)
@@ -88,10 +89,10 @@ object Validator {
         )
 
   def checkIfSome[T, E](
-    element: T => Option[E],
-    validator: Validate[E],
-    isValidIfNone: Boolean = true
-  ): Validate[T] =
+                         element: T => Option[E],
+                         validator: Validate[E],
+                         isValidIfNone: Boolean = true
+                       ): Validate[T] =
     (entity: T) =>
       element(entity)
         .map(validator)
@@ -103,10 +104,10 @@ object Validator {
     (entity: T) => elements(entity).map(validator).reduce(_.combine(_))
 
   def checkEachIfSome[T, E](
-    extract: T => Option[Seq[E]],
-    validator: Validate[E],
-    isValidIfNone: Boolean = true
-  ): Validate[T] =
+                             extract: T => Option[Seq[E]],
+                             validator: Validate[E],
+                             isValidIfNone: Boolean = true
+                           ): Validate[T] =
     (entity: T) =>
       extract(entity)
         .map(
@@ -118,17 +119,17 @@ object Validator {
         )
 
   def checkIfAtLeastOneIsDefined[T](
-    alternatives: Seq[T => Option[Any]],
-    expectations: String
-  ): Validate[T] =
+                                     alternatives: Seq[T => Option[Any]],
+                                     expectations: String
+                                   ): Validate[T] =
     (entity: T) =>
       if (alternatives.exists(f => f(entity).isDefined)) Valid(())
       else Invalid(List(s"One of an alternative values $expectations must be defined"))
 
   def checkIfOnlyOneSetIsDefined[T](
-    alternatives: Seq[Set[T => Option[Any]]],
-    expectations: String
-  ): Validate[T] =
+                                     alternatives: Seq[Set[T => Option[Any]]],
+                                     expectations: String
+                                   ): Validate[T] =
     (entity: T) => {
       val definedSetCount =
         alternatives.map(_.map(f => f(entity).isDefined).reduce(_ && _)).count(_ == true)
@@ -148,24 +149,36 @@ object Validator {
   implicit class StringMatchers(val value: String) extends AnyVal {
     def lengthMinMaxInclusive(min: Int, max: Int): Boolean =
       value != null && value.length >= min && value.length <= max
+
     def lengthMin(min: Int): Boolean = value != null && value.length >= min
+
     def lengthMax(max: Int): Boolean = value != null && value.length <= max
+
     def isRight(test: String => Either[String, _]): Boolean = test(value).isRight
+
     def isTrue(test: String => Boolean): Boolean = test(value)
+
     def isOneOf(seq: Seq[String]): Boolean = seq.contains(value)
   }
 
   implicit class OptionalStringMatchers(val value: Option[String]) extends AnyVal {
     def lengthMinMaxInclusive(min: Int, max: Int): Boolean =
       value.forall(v => v != null && v.length >= min && v.length <= max)
+
     def lengthMin(min: Int): Boolean =
       value.forall(v => v != null && v.length >= min)
+
     def lengthMax(max: Int): Boolean =
       value.forall(v => v != null && v.length <= max)
+
     def isRight(test: String => Either[String, _]): Boolean = value.forall(test(_).isRight)
+
     def isTrue(test: String => Boolean): Boolean = value.forall(test(_))
+
     def matches(regex: String): Boolean = value.forall(_.matches(regex))
+
     def isOneOf(seq: Seq[String]): Boolean = value.forall(seq.contains)
+
     def isOneOf(set: Set[String]): Boolean = value.forall(set.apply)
   }
 
@@ -174,8 +187,10 @@ object Validator {
       value != null && value <= max && value >= min && multipleOf.forall(a =>
         (value % a).abs < 0.0001
       )
+
     def lteq(max: BigDecimal, multipleOf: Option[BigDecimal] = None): Boolean =
       value != null && value <= max && multipleOf.forall(a => (value % a).abs < 0.0001)
+
     def gteq(min: BigDecimal, multipleOf: Option[BigDecimal] = None): Boolean =
       value != null && value >= min && multipleOf.forall(a => (value % a).abs < 0.0001)
   }
@@ -185,16 +200,21 @@ object Validator {
       value.forall(v =>
         v != null && v <= max && v >= min && multipleOf.forall(a => (v % a).abs < 0.0001)
       )
+
     def lteq(max: BigDecimal, multipleOf: Option[BigDecimal] = None): Boolean =
       value.forall(v => v != null && v <= max && multipleOf.forall(a => (v % a).abs < 0.0001))
+
     def gteq(min: BigDecimal, multipleOf: Option[BigDecimal] = None): Boolean =
       value.forall(v => v != null && v >= min && multipleOf.forall(a => (v % a).abs < 0.0001))
   }
 
   implicit class BooleanOps(val value: Boolean) extends AnyVal {
     def map[T](f: Unit => T): Option[T] = if (value) Some(f(())) else None
+
     def orElse(b: => Boolean): Boolean = value || b
+
     def asOption: Option[Unit] = if (value) Some(()) else None
+
     def isDefined: Boolean = value
   }
 
@@ -204,4 +224,5 @@ object Validator {
     implicit val unitSemigroup: Semigroup[Unit] = Semigroup.instance((_, _) => ())
     implicit val stringSemigroup: Semigroup[String] = Semigroup.instance(_ + _)
   }
+
 }

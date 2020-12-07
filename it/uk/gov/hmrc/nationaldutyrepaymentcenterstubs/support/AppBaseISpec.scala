@@ -5,7 +5,7 @@ import play.api.Application
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.stubs.AuthStubs
 
 abstract class AppBaseISpec
-    extends BaseISpec with OneAppPerSuite with TestApplication with AuthStubs {
+  extends BaseISpec with OneAppPerSuite with TestApplication with AuthStubs {
 
   override implicit lazy val app: Application = appBuilder.build()
 

@@ -36,15 +36,15 @@ trait ControllerHelper {
   type HandleError = (String, String) => Result
 
   protected def withPayload[T](
-    f: T => Future[Result]
-  )(
-    handleError: HandleError
-  )(implicit
-    request: Request[String],
-    reads: Reads[T],
-    validate: Validator.Validate[T],
-    ec: ExecutionContext
-  ): Future[Result] =
+                                f: T => Future[Result]
+                              )(
+                                handleError: HandleError
+                              )(implicit
+                                request: Request[String],
+                                reads: Reads[T],
+                                validate: Validator.Validate[T],
+                                ec: ExecutionContext
+                              ): Future[Result] =
     Try(Json.parse(request.body).validate[T]) match {
 
       case Success(JsSuccess(payload, _)) =>
@@ -63,11 +63,13 @@ trait ControllerHelper {
       case Success(JsError(errs)) =>
         Future successful handleError(
           "ERROR_JSON",
-          s"Invalid payload: Parsing failed due to ${errs
-            .map { case (path, errors) =>
-              s"at path $path with ${errors.map(e => e.messages.mkString(", ")).mkString(", ")}"
-            }
-            .mkString(", and ")}."
+          s"Invalid payload: Parsing failed due to ${
+            errs
+              .map { case (path, errors) =>
+                s"at path $path with ${errors.map(e => e.messages.mkString(", ")).mkString(", ")}"
+              }
+              .mkString(", and ")
+          }."
         )
 
       case Failure(e) =>

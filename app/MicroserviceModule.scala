@@ -27,7 +27,7 @@ import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.connectors.MicroserviceAuthC
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 class MicroserviceModule(val environment: Environment, val configuration: Configuration)
-    extends AbstractModule {
+  extends AbstractModule {
 
   def configure(): Unit = {
     val appName = "national-duty-repayment-center-stubs"

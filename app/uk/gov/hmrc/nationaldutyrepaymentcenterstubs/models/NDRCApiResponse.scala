@@ -20,10 +20,10 @@ import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.ApiError
 
 case class NDRCCreateCaseResponse(
-  correlationId: String,
-  error: Option[ApiError] = None,
-  result: Option[String] = None
-)
+                                   correlationId: String,
+                                   error: Option[ApiError] = None,
+                                   result: Option[String] = None
+                                 )
 
 object NDRCCreateCaseResponse {
   implicit val formats: Format[NDRCCreateCaseResponse] =

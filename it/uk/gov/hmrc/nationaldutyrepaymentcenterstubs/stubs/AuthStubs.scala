@@ -11,14 +11,14 @@ trait AuthStubs {
   def givenAuthorised[A]() =
     stubForAuthAuthorise(
       s"""
-        |{
-        |  "authorise": [
-        |    { "authProviders": ["GovernmentGateway"] }
-        |  ]
-        |}
+         |{
+         |  "authorise": [
+         |    { "authProviders": ["GovernmentGateway"] }
+         |  ]
+         |}
            """.stripMargin,
       s"""
-        |{}
+         |{}
           """.stripMargin
     )
 

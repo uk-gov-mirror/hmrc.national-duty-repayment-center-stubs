@@ -23,6 +23,7 @@ class AuthActionsISpec extends AppBaseISpec {
 
     implicit val hc = HeaderCarrier()
     implicit val request = FakeRequest().withSession(SessionKeys.authToken -> "Bearer XYZ")
+
     import scala.concurrent.ExecutionContext.Implicits.global
 
     def withAuthorised[A]: Result =

@@ -18,7 +18,7 @@ trait MetricsTestSupport {
     val registry = app.injector.instanceOf[Metrics].defaultRegistry
     for (
       metric <- JavaConverters
-                  .asScalaIterator[String](registry.getMetrics.keySet().iterator())
+        .asScalaIterator[String](registry.getMetrics.keySet().iterator())
     )
       registry.remove(metric)
     metricsRegistry = registry

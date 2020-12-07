@@ -29,7 +29,7 @@ trait AppConfig {
 
 }
 
-class AppConfigImpl @Inject() (config: ServicesConfig) extends AppConfig {
+class AppConfigImpl @Inject()(config: ServicesConfig) extends AppConfig {
 
   val appName: String = config.getString("appName")
 

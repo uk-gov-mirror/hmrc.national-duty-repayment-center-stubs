@@ -31,16 +31,14 @@ import java.time.format.DateTimeFormatter
 import java.time.ZoneId
 
 
-
-
 @Singleton
 class NationalDutyRepaymentCenterStubController @Inject()(
-  val authConnector: MicroserviceAuthConnector,
-  val env: Environment,
-  val appConfig: AppConfig,
-  cc: ControllerComponents
-)(implicit val configuration: Configuration, ec: ExecutionContext)
-    extends BackendController(cc) with AuthActions with ControllerHelper {
+                                                           val authConnector: MicroserviceAuthConnector,
+                                                           val env: Environment,
+                                                           val appConfig: AppConfig,
+                                                           cc: ControllerComponents
+                                                         )(implicit val configuration: Configuration, ec: ExecutionContext)
+  extends BackendController(cc) with AuthActions with ControllerHelper {
 
   // POST /create-case
   def createCaseMDTPStub: Action[JsValue] =

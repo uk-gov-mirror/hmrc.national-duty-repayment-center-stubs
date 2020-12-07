@@ -8,7 +8,7 @@ import scala.reflect.ClassTag
 trait JsonMatchers {
 
   def haveProperty[T: Reads](name: String, matcher: Matcher[T] = null)(implicit
-    classTag: ClassTag[T]
+                                                                       classTag: ClassTag[T]
   ): Matcher[JsObject] =
     new Matcher[JsObject] {
       override def apply(obj: JsObject): MatchResult =
@@ -28,16 +28,18 @@ trait JsonMatchers {
           case _ =>
             MatchResult(
               false,
-              s"JSON should have property `$name` of type ${classTag.runtimeClass.getSimpleName}, but had only ${obj.fields
-                .map(f => s"${f._1}:${f._2.getClass.getSimpleName}")
-                .mkString(", ")}",
+              s"JSON should have property `$name` of type ${classTag.runtimeClass.getSimpleName}, but had only ${
+                obj.fields
+                  .map(f => s"${f._1}:${f._2.getClass.getSimpleName}")
+                  .mkString(", ")
+              }",
               ""
             )
         }
     }
 
   def havePropertyArrayOf[T: Reads](name: String, matcher: Matcher[T] = null)(implicit
-    classTag: ClassTag[T]
+                                                                              classTag: ClassTag[T]
   ): Matcher[JsObject] =
     new Matcher[JsObject] {
       override def apply(obj: JsObject): MatchResult =
@@ -53,9 +55,11 @@ trait JsonMatchers {
           case _ =>
             MatchResult(
               false,
-              s"JSON should have array property `$name` of item type ${classTag.runtimeClass.getSimpleName}, but had only ${obj.fields
-                .map(f => s"${f._1}:${f._2.getClass.getSimpleName}")
-                .mkString(", ")}",
+              s"JSON should have array property `$name` of item type ${classTag.runtimeClass.getSimpleName}, but had only ${
+                obj.fields
+                  .map(f => s"${f._1}:${f._2.getClass.getSimpleName}")
+                  .mkString(", ")
+              }",
               ""
             )
         }
@@ -85,8 +89,8 @@ trait JsonMatchers {
     }
 
   def eachArrayElement[T: Reads](
-    matcher: Matcher[T]
-  )(implicit classTag: ClassTag[T]): Matcher[JsArray] =
+                                  matcher: Matcher[T]
+                                )(implicit classTag: ClassTag[T]): Matcher[JsArray] =
     new Matcher[JsArray] {
       override def apply(left: JsArray): MatchResult =
         left.value
