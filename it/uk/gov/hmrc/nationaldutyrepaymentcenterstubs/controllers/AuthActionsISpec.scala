@@ -19,8 +19,6 @@ class AuthActionsISpec extends AppBaseISpec {
     override val appConfig: AppConfig = new AppConfig {
       override val appName: String = "dummy"
       override val authBaseUrl: String = "dummy"
-      override val authorisedServiceName: String = "HMRC-XYZ"
-      override val authorisedIdentifierKey: String = "XYZNumber"
     }
 
     implicit val hc = HeaderCarrier()

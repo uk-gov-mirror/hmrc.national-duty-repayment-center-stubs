@@ -27,9 +27,6 @@ trait AppConfig {
 
   val authBaseUrl: String
 
-  val authorisedServiceName: String
-
-  val authorisedIdentifierKey: String
 }
 
 class AppConfigImpl @Inject() (config: ServicesConfig) extends AppConfig {
@@ -37,9 +34,5 @@ class AppConfigImpl @Inject() (config: ServicesConfig) extends AppConfig {
   val appName: String = config.getString("appName")
 
   val authBaseUrl: String = config.baseUrl("auth")
-
-  val authorisedServiceName: String = config.getString("authorisedServiceName")
-
-  val authorisedIdentifierKey: String = config.getString("authorisedIdentifierKey")
 
 }
