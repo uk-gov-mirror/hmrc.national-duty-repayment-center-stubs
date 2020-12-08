@@ -17,7 +17,6 @@
 package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models
 
 import play.api.libs.json.{Format, Json}
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.ApiError
 
 case class NDRCCreateCaseResponse(
                                    correlationId: String,
