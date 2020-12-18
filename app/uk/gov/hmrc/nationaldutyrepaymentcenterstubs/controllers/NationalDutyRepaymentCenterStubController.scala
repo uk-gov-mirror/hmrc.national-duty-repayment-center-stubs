@@ -20,15 +20,19 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.connectors.MicroserviceAuthConnector
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.NDRCCreateCaseResponse
+import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.{CaseResponseSuccess, NDRCCreateCaseResponse, ResponseFailure, Validator}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
+
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.libs.json.Json
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsValue, Json, Reads}
 import java.{util => ju}
 import java.time.format.DateTimeFormatter
-import java.time.ZoneId
+import java.time.{ZoneId, ZonedDateTime}
+
+import uk.gov.hmrc.nationaldutyrepaymentcenter.models.CreateCaseRequest
+
+import scala.util.Try
 
 
 @Singleton
@@ -64,5 +68,133 @@ class NationalDutyRepaymentCenterStubController @Inject()(
   val httpDateFormat = DateTimeFormatter
     .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", ju.Locale.ENGLISH)
     .withZone(ZoneId.of("GMT"))
+
+  // POST /cpr/caserequest/ndrc/create/v1
+  def createCaseEISStub: Action[String] = {
+
+    val errorScenarioEPU: Set[String] = Set("666", "667")
+
+    def isSuccessCase(payload: CreateCaseRequest): Boolean =
+      !errorScenarioEPU.contains(payload.Content.ClaimDetails.EntryDetails.EPU)
+
+    def errorMessageFor(payload: CreateCaseRequest): (String, String) =
+      payload.Content.ClaimDetails.EntryDetails.EPU match {
+        case "667" => ("400", "999 : PC12010081330XGBNZJO04")
+        case _     => ("400", "Invalid request")
+      }
+
+    Action.async(parse.tolerantText) { implicit request =>
+      withValidHeaders { correlationId =>
+        withValidCasePayload[CreateCaseRequest](correlationId) { payload =>
+          Future.successful(
+            if (isSuccessCase(payload))
+              Ok(
+                Json.toJson(
+                  CaseResponseSuccess(
+                    "PC12010081330XGBNZJO04",
+                    processingDateFormat.format(ZonedDateTime.now),
+                    "Success",
+                    "Case Created Successfully"
+                  )
+                )
+              )
+            else
+              errorMessageFor(payload) match {
+                case (code, message) =>
+                  InternalServerError(
+                    Json.toJson(
+                      ResponseFailure(
+                        processingDateFormat.format(ZonedDateTime.now),
+                        correlationId,
+                        code,
+                        message
+                      )
+                    )
+                  )
+              }
+          )
+        }
+      }
+    }
+  }
+
+  /**
+   * Check all required headers and retrieve correlationId if any, then continue.
+   * Return 403 if missing or invalid header.
+   */
+  private def withValidHeaders(
+                                continue: String => Future[Result]
+                              )(implicit request: Request[_]): Future[Result] = {
+    val correlationIdHeader = request.headers.get("x-correlation-id")
+    val hasCorrelationIdHeader = correlationIdHeader.exists(_.nonEmpty)
+    val hasDateHeader =
+      request.headers.get("date").exists(date => Try(httpDateFormat.parse(date)).isSuccess)
+    val hasContentTypeHeader =
+      request.headers.get("content-type").exists(_ == "application/json")
+    val hasAcceptHeader = request.headers.get("accept").exists(_ == "application/json")
+    val hasAuthorizationHeader =
+      request.headers.get("authorization").exists(_.startsWith("Bearer "))
+    val hasEnvironmentHeader =
+      request.headers.get("environment").exists(_ == "stub")
+    val hasCustomProcessesHostHeader =
+      request.headers.get("CustomProcessesHost").exists(_ == "Digital")
+
+    if (
+      hasCorrelationIdHeader &&
+        hasDateHeader &&
+        hasContentTypeHeader &&
+        hasAcceptHeader &&
+        hasAuthorizationHeader &&
+        hasEnvironmentHeader &&
+        hasCustomProcessesHostHeader
+    ) {
+      println("HEADERS ARE VALID")
+      continue(correlationIdHeader.getOrElse(""))
+    } else {
+      // In case of missing headers
+      Future.successful(Forbidden)
+    }
+  }
+
+  /**
+   * Parse request message and continue.
+   * Return 403 if parsing or validsation fails.
+   * Return 500 if other errors.
+   */
+  private def withValidCasePayload[T](correlationId: String)(
+    continue: T => Future[Result]
+  )(implicit
+    request: Request[String],
+    reads: Reads[T],
+    validate: Validator.Validate[T],
+    ec: ExecutionContext
+                                     ): Future[Result] =
+    withPayload[T](continue) {
+      // In case of failure to parse or validate request message
+      case (error, message) =>
+        Forbidden(
+          Json.toJson(
+            ResponseFailure(
+              processingDateFormat.format(ZonedDateTime.now),
+              correlationId,
+              "403",
+              message
+            )
+          )
+        )
+    }.recover {
+      // In case of other errors
+      case e: Exception =>
+        InternalServerError(
+          Json.toJson(
+            ResponseFailure(
+              processingDateFormat.format(ZonedDateTime.now),
+              correlationId,
+              "500",
+              e.getMessage()
+            )
+          )
+        )
+    }
 
 }
