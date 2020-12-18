@@ -69,7 +69,7 @@ class NationalDutyRepaymentCenterStubController @Inject()(
     .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", ju.Locale.ENGLISH)
     .withZone(ZoneId.of("GMT"))
 
-  // POST /cpr/caserequest/ndrc/create/v1
+  // POST /NDRC/v1/createCaseRequest
   def createCaseEISStub: Action[String] = {
 
     val errorScenarioEPU: Set[String] = Set("666", "667")
@@ -120,7 +120,7 @@ class NationalDutyRepaymentCenterStubController @Inject()(
 
   /**
    * Check all required headers and retrieve correlationId if any, then continue.
-   * Return 403 if missing or invalid header.
+   * Return 400 if missing or invalid header.
    */
   private def withValidHeaders(
                                 continue: String => Future[Result]
@@ -148,17 +148,16 @@ class NationalDutyRepaymentCenterStubController @Inject()(
         hasEnvironmentHeader &&
         hasCustomProcessesHostHeader
     ) {
-      println("HEADERS ARE VALID")
       continue(correlationIdHeader.getOrElse(""))
     } else {
       // In case of missing headers
-      Future.successful(Forbidden)
+      Future.successful(BadRequest)
     }
   }
 
   /**
    * Parse request message and continue.
-   * Return 403 if parsing or validsation fails.
+   * Return 400 if parsing or validation fails.
    * Return 500 if other errors.
    */
   private def withValidCasePayload[T](correlationId: String)(
@@ -172,12 +171,12 @@ class NationalDutyRepaymentCenterStubController @Inject()(
     withPayload[T](continue) {
       // In case of failure to parse or validate request message
       case (error, message) =>
-        Forbidden(
+        BadRequest(
           Json.toJson(
             ResponseFailure(
               processingDateFormat.format(ZonedDateTime.now),
               correlationId,
-              "403",
+              "400",
               message
             )
           )

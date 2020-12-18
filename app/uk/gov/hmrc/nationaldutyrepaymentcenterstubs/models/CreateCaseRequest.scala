@@ -443,7 +443,7 @@ object CreateCaseRequest {
     val ClaimantEnum = Seq("01", "02")
     val ClaimTypeEnum = Seq("01", "02")
     val ClaimReasonEnum = Seq("01", "02", "03", "04", "05", "06", "07", "08", "09", "10")
-    val ClaimDescriptionPattern = """([a-zA-Z0-9]{1,1500})"""
+    val ClaimDescriptionPattern = """([a-zA-Z0-9 ]{1,1500})"""
     val DateReceivedPattern = """([0-9]{8})"""
     val ClaimDatePattern = """([0-9]{8})"""
     val PayeeIndicatorEnum = Seq("01", "02", "03")
@@ -453,8 +453,8 @@ object CreateCaseRequest {
     val EntryDatePattern = """([0-9]{8})"""
     val VATNumberPattern = """([0-9]{8})""" //TODO change to boolean (isVATRegistered)
     val EORIPattern = """(([G]{1}[B]{1}[0-9]{15})|([G]{1}[B]{1}[0-9]{12})|([G]{1}[B]{1}[P]{1}[R]{1}))"""
-    val NamePattern = """([a-zA-Z0-9]{1,512})"""
-    val AccountNamePattern = """([a-zA-Z0-9]{1,40})"""
+    val NamePattern = """([a-zA-Z0-9 ]{1,512})"""
+    val AccountNamePattern = """([a-zA-Z0-9 ]{1,40})"""
     val SortCodePattern = """([0-9]{6})"""
     val AccountNumberPattern = """([0-9]{8})"""
     val TypeEnum = Seq("01", "02", "03")
@@ -462,7 +462,7 @@ object CreateCaseRequest {
     val DueAmountPattern = """(^-?[0-9]{1,11}$|^-?[0-9]{1,11}[.][0-9]{1,2}$)"""
     val ClaimAmountPattern = """(^-?[0-9]{1,11}$|^-?[0-9]{1,11}[.][0-9]{1,2}$)"""
     val DocumentListEnum = Seq("01", "02", "03", "04", "05", "06", "07", "08")
-    val DescriptionPattern = """([a-zA-Z0-9]{1,100})"""
+    val DescriptionPattern = """([a-zA-Z0-9 ]{1,100})"""
     val AddressLine1Pattern = """([a-zA-Z0-9]{1,128})"""
     val AddressLine2Pattern = """([a-zA-Z0-9]{1,128})"""
     val CityPattern = """([a-zA-Z0-9]{1,64})"""

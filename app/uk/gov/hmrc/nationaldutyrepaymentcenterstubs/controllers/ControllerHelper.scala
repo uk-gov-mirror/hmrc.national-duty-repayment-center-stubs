@@ -61,7 +61,6 @@ trait ControllerHelper {
         }
 
       case Success(JsError(errs)) =>
-        println("XXXXXXXXXXXX ControllerHelper request.body " + request.body)
         Future successful handleError(
           "ERROR_JSON",
           s"Invalid payload: Parsing failed due to ${
