@@ -71,7 +71,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "PaymentMethod" : "02"
                              |    },
                              |    "AgentDetails" : {
-                             |      "VATNumber" : "12345678",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -86,7 +86,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      }
                              |    },
                              |    "ImporterDetails" : {
-                             |      "VATNumber" : "12345678",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -188,7 +188,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "PaymentMethod" : "02"
                              |    },
                              |    "AgentDetails" : {
-                             |      "VATNumber" : "123456789",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -203,7 +203,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      }
                              |    },
                              |    "ImporterDetails" : {
-                             |      "VATNumber" : "123456789",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -356,7 +356,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "PaymentMethod" : "02"
                              |    },
                              |    "AgentDetails" : {
-                             |      "VATNumber" : "123456789",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -371,7 +371,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      }
                              |    },
                              |    "ImporterDetails" : {
-                             |      "VATNumber" : "123456789",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -486,7 +486,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "PaymentMethod" : "02"
                              |    },
                              |    "AgentDetails" : {
-                             |      "VATNumber" : "12345678",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {
@@ -501,7 +501,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      }
                              |    },
                              |    "ImporterDetails" : {
-                             |      "VATNumber" : "12345678",
+                             |      "IsVATRegistered" : "true",
                              |      "EORI" : "GB123456789123456",
                              |      "Name" : "Joe Bloggs",
                              |      "Address" : {

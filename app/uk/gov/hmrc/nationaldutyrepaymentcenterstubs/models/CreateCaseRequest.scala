@@ -196,7 +196,7 @@ object CreateCaseRequest {
   }
 
   case class UserDetails(
-                          VATNumber: Option[String],
+                          IsVATRegistered: String,
                           EORI: String,
                           Name: String,
                           Address: Address
@@ -205,10 +205,10 @@ object CreateCaseRequest {
   object UserDetails {
     implicit val formats: Format[UserDetails] = Json.format[UserDetails]
 
-    val VATNumberValidator: Validate[String] =
+    val IsVATRegisteredValidator: Validate[String] =
       check(
-        _.matches(VATNumberPattern),
-        s""""Invalid VATNumber, should be one of [${VATNumberPattern.mkString(", ")}]"""
+        _.isOneOf(IsVATRegisteredEnum),
+        s""""Invalid IsVATRegistered, should be one of [${IsVATRegisteredEnum.mkString(", ")}]"""
       )
 
     val EORIValidator: Validate[String] =
@@ -224,7 +224,7 @@ object CreateCaseRequest {
       )
 
     val validate: Validate[UserDetails] = Validator(
-      checkIfSome(_.VATNumber, VATNumberValidator),
+      checkProperty(_.IsVATRegistered, IsVATRegisteredValidator),
       checkProperty(_.EORI, EORIValidator),
       checkProperty(_.Name, NameValidator)
     )
@@ -451,7 +451,7 @@ object CreateCaseRequest {
     val EPUPattern = """([0-9]{3})"""
     val EntryNumberPattern = """([0-9]{6}[0-9a-zA-Z]{1})"""
     val EntryDatePattern = """([0-9]{8})"""
-    val VATNumberPattern = """([0-9]{8})""" //TODO change to boolean (isVATRegistered)
+    val IsVATRegisteredEnum = Seq("true", "false")
     val EORIPattern = """(([G]{1}[B]{1}[0-9]{15})|([G]{1}[B]{1}[0-9]{12})|([G]{1}[B]{1}[P]{1}[R]{1}))"""
     val NamePattern = """([a-zA-Z0-9 ]{1,512})"""
     val AccountNamePattern = """([a-zA-Z0-9 ]{1,40})"""
