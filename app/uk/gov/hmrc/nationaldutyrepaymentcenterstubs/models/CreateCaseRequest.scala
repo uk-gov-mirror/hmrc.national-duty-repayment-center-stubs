@@ -196,7 +196,7 @@ object CreateCaseRequest {
   }
 
   case class UserDetails(
-                          IsVATRegistered: String,
+                          IsVATRegistered: Option[String],
                           EORI: String,
                           Name: String,
                           Address: Address
@@ -224,7 +224,7 @@ object CreateCaseRequest {
       )
 
     val validate: Validate[UserDetails] = Validator(
-      checkProperty(_.IsVATRegistered, IsVATRegisteredValidator),
+      checkIfSome(_.IsVATRegistered, IsVATRegisteredValidator),
       checkProperty(_.EORI, EORIValidator),
       checkProperty(_.Name, NameValidator)
     )
