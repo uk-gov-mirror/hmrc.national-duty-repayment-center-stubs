@@ -73,7 +73,8 @@ object CreateCaseRequest {
                            DateReceived: String,
                            ClaimDate: String,
                            PayeeIndicator: String,
-                           PaymentMethod: String
+                           PaymentMethod: String,
+                           DeclarantRefNumber: String
                          )
 
   object ClaimDetails {
@@ -145,6 +146,12 @@ object CreateCaseRequest {
         s""""Invalid PaymentMethod, should be one of [${PaymentMethodEnum.mkString(", ")}]"""
       )
 
+    val DeclarantRefNumberValidator: Validate[String] =
+      check(
+        _.matches(DeclarantRefNumberPattern),
+        s""""Invalid DeclarantRefNumber, should be one of [${DeclarantRefNumberPattern.mkString(", ")}]"""
+      )
+
 
     val validate: Validate[ClaimDetails] = Validator(
       checkProperty(_.FormType, FormTypeValidator),
@@ -157,7 +164,8 @@ object CreateCaseRequest {
       checkProperty(_.DateReceived, DateReceivedValidator),
       checkProperty(_.ClaimDate, ClaimDateValidator),
       checkProperty(_.PayeeIndicator, PayeeIndicatorValidator),
-      checkProperty(_.PaymentMethod, PaymentMethodValidator)
+      checkProperty(_.PaymentMethod, PaymentMethodValidator),
+      checkProperty(_.DeclarantRefNumber,DeclarantRefNumberValidator)
     )
   }
 
@@ -448,6 +456,7 @@ object CreateCaseRequest {
     val ClaimDatePattern = """([0-9]{8})"""
     val PayeeIndicatorEnum = Seq("01", "02", "03")
     val PaymentMethodEnum = Seq("01", "02", "03")
+    val DeclarantRefNumberPattern = """([a-zA-Z0-9]{1,50})"""
     val EPUPattern = """([0-9]{3})"""
     val EntryNumberPattern = """([0-9]{6}[0-9a-zA-Z]{1})"""
     val EntryDatePattern = """([0-9]{8})"""
