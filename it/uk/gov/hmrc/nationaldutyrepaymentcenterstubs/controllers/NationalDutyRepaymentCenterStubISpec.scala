@@ -34,10 +34,10 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
       }
     }
 
-    "POST /NDRC/v1/createCaseRequest" should {
+    "POST /cpr/caserequest/ndrc/create/v1" should {
       "respond with 200 and body containing CaseID" in {
         val result = wsClient
-          .url(s"$url/NDRC/v1/createCaseRequest")
+          .url(s"$url/cpr/caserequest/ndrc/create/v1")
           .withHttpHeaders(
             "x-forwarded-host"    -> "127.0.0.1",
             "x-correlation-id"    -> ju.UUID.randomUUID().toString(),
@@ -163,7 +163,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
 
       "response with 400 if missing header" in {
         val result = wsClient
-          .url(s"$url/NDRC/v1/createCaseRequest")
+          .url(s"$url/cpr/caserequest/ndrc/create/v1")
           .post(Json.parse("""{
                              |"ApplicationType" : "NDRC",
                              |"OriginatingSystem" : "Digital",
@@ -281,7 +281,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
           BodyWritable(str => InMemoryBody(ByteString.fromString(str)), "application/json")
 
         val result = wsClient
-          .url(s"$url/NDRC/v1/createCaseRequest")
+          .url(s"$url/cpr/caserequest/ndrc/create/v1")
           .withHttpHeaders(
             "x-forwarded-host"    -> "127.0.0.1",
             "x-correlation-id"    -> correlationId,
@@ -323,7 +323,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
       "response with 400 if the payload doesn't follow the schema" in {
         val correlationId = ju.UUID.randomUUID().toString()
         val result = wsClient
-          .url(s"$url/NDRC/v1/createCaseRequest")
+          .url(s"$url/cpr/caserequest/ndrc/create/v1")
           .withHttpHeaders(
             "x-forwarded-host"    -> "127.0.0.1",
             "x-correlation-id"    -> correlationId,
@@ -454,7 +454,7 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
       "response with 500 if an upstream error occurs" in {
         val correlationId = ju.UUID.randomUUID().toString()
         val result = wsClient
-          .url(s"$url/NDRC/v1/createCaseRequest")
+          .url(s"$url/cpr/caserequest/ndrc/create/v1")
           .withHttpHeaders(
             "x-forwarded-host"    -> "127.0.0.1",
             "x-correlation-id"    -> correlationId,

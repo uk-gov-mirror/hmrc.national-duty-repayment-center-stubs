@@ -69,7 +69,7 @@ class NationalDutyRepaymentCenterStubController @Inject()(
     .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", ju.Locale.ENGLISH)
     .withZone(ZoneId.of("GMT"))
 
-  // POST /NDRC/v1/createCaseRequest
+  // POST /cpr/caserequest/ndrc/create/v1
   def createCaseEISStub: Action[String] = {
 
     val errorScenarioEPU: Set[String] = Set("666", "667")
