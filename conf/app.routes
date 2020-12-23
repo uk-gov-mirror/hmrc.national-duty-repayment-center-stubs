@@ -1,5 +1,5 @@
 # microservice specific routes
 
 POST         /create-case                                          @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.createCaseMDTPStub
-POST         /NDRC/v1/createCaseRequest                            @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.createCaseEISStub
+POST         /cpr/caserequest/ndrc/create/v1                       @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.createCaseEISStub
 
