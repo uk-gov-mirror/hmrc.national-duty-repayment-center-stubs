@@ -68,7 +68,8 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "DateReceived" : "20200805",
                              |      "ClaimDate" : "20200805",
                              |      "PayeeIndicator" : "01",
-                             |      "PaymentMethod" : "02"
+                             |      "PaymentMethod" : "02",
+                             |      "DeclarantRefNumber" : "NA"
                              |    },
                              |    "AgentDetails" : {
                              |      "IsVATRegistered" : "true",
@@ -185,7 +186,8 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "DateReceived" : "20200805",
                              |      "ClaimDate" : "20200805",
                              |      "PayeeIndicator" : "01",
-                             |      "PaymentMethod" : "02"
+                             |      "PaymentMethod" : "02",
+                             |      "DeclarantRefNumber" : "NA"
                              |    },
                              |    "AgentDetails" : {
                              |      "IsVATRegistered" : "true",
@@ -353,7 +355,8 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "DateReceived" : "20200805",
                              |      "ClaimDate" : "20200805",
                              |      "PayeeIndicator" : "01",
-                             |      "PaymentMethod" : "02"
+                             |      "PaymentMethod" : "02",
+                             |      "DeclarantRefNumber" : "NA"
                              |    },
                              |    "AgentDetails" : {
                              |      "IsVATRegistered" : "true",
@@ -483,7 +486,8 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "DateReceived" : "20200805",
                              |      "ClaimDate" : "20200805",
                              |      "PayeeIndicator" : "01",
-                             |      "PaymentMethod" : "02"
+                             |      "PaymentMethod" : "02",
+                             |      "DeclarantRefNumber" : "NA"
                              |    },
                              |    "AgentDetails" : {
                              |      "IsVATRegistered" : "true",
