@@ -58,7 +58,7 @@ object AmendCaseRequest {
     val CaseIDValidator: Validate[String] =
       check(
         _.matches(CaseIDPattern),
-        s""""Invalid City, should be one of [${CaseIDPattern.mkString(", ")}]"""
+        s""""Invalid CaseID, should be one of [${CaseIDPattern.mkString(", ")}]"""
       )
 
     val validate: Validate[Content] = Validator(
@@ -68,8 +68,8 @@ object AmendCaseRequest {
   }
 
   object CommonValues {
-    val DescriptionPattern = """([a-zA-Z0-9 ]{1,1500})"""
-    val CaseIDPattern = """([a-zA-Z0-9]{2,64})"""
+    val DescriptionPattern = """([a-zA-Z0-9- ]{1,1500})"""
+    val CaseIDPattern = """([a-zA-Z0-9-]{2,64})"""
   }
 
   val AcknowledgementReferenceValidator: Validate[String] = check(

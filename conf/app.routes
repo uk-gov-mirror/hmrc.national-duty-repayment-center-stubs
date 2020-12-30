@@ -4,4 +4,4 @@ POST         /create-case                                          @uk.gov.hmrc.
 POST         /cpr/caserequest/ndrc/create/v1                       @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.createCaseEISStub
 
 POST         /amend-case                                          @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.amendCaseMDTPStub
-POST         /cpr/caserequest/ndrc/update/v1                       @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.amendCaseEISStub
+POST         /cpr/caserequest/ndrc/update/v1                      @uk.gov.hmrc.nationaldutyrepaymentcenterstubs.controllers.NationalDutyRepaymentCenterStubController.amendCaseEISStub

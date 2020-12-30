@@ -583,4 +583,181 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
       }
     }
   }
+
+  "POST /amend-case" should {
+    "respond with 200 and body containing some result" in {
+      givenAuthorised()
+      val result = wsClient
+        .url(s"$url/amend-case")
+        .post(Json.parse("""{}"""))
+        .futureValue
+      result.status shouldBe 201
+      result.json.as[JsObject] should (haveProperty[String]("correlationId") and
+        haveProperty[String]("result", be("PC12010081330XGBNZJO04")))
+    }
+  }
+
+  "POST /cpr/caserequest/ndrc/update/v1" should {
+    "amend respond with 200 and body containing CaseID" in {
+      val result = wsClient
+        .url(s"$url/cpr/caserequest/ndrc/update/v1")
+        .withHttpHeaders(
+          "x-forwarded-host" -> "127.0.0.1",
+          "x-correlation-id" -> ju.UUID.randomUUID().toString(),
+          "date" -> "Fri, 06 Nov 2020 08:23:57 GMT",
+          "accept" -> "application/json",
+          "authorization" -> "Bearer 321367126376217367621736716362",
+          "environment" -> "stub",
+          "CustomProcessesHost" -> "Digital"
+        )
+        .post(Json.parse(
+          """{
+            |"ApplicationType" : "NDRC",
+            |"OriginatingSystem" : "Digital",
+            |"AcknowledgementReference" : "1234",
+            |  "Content": {
+            |      "CaseID" : "Risk-2507",
+            |      "Description" : "update request for Risk-2507"
+            |    }
+            |}""".stripMargin))
+        .futureValue
+      result.status shouldBe 200
+      result.json.as[JsObject] should (
+        haveProperty[String]("ProcessingDate") and
+          haveProperty[String]("CaseID", be("PC12010081330XGBNZJO04")) and
+          haveProperty[String]("Status", be("Success")) and
+          haveProperty[String]("StatusText", be("Case Updated Successfully"))
+        )
+    }
+
+    "amend response with 400 if missing header" in {
+      val result = wsClient
+        .url(s"$url/cpr/caserequest/ndrc/update/v1")
+        .post(Json.parse(
+          """{
+            |"ApplicationType" : "NDRC",
+            |"OriginatingSystem" : "Digital",
+            |"AcknowledgementReference" : "1234",
+            |  "Content": {
+            |    "CaseID" : "Risk-2507",
+            |    "Description" : "update request for Risk-2507"
+            | }
+            |}""".stripMargin))
+        .futureValue
+      result.status shouldBe 400
+    }
+
+    "amend response with 400 if malformed json" in {
+      val correlationId = ju.UUID.randomUUID().toString()
+
+      // force malformed json string
+      implicit val bodyWritable: BodyWritable[String] =
+        BodyWritable(str => InMemoryBody(ByteString.fromString(str)), "application/json")
+
+      val result = wsClient
+        .url(s"$url/cpr/caserequest/ndrc/update/v1")
+        .withHttpHeaders(
+          "x-forwarded-host" -> "127.0.0.1",
+          "x-correlation-id" -> correlationId,
+          "date" -> "Fri, 06 Nov 2020 08:23:57 GMT",
+          "accept" -> "application/json",
+          "authorization" -> "Bearer 321367126376217367621736716362",
+          "environment" -> "stub",
+          "CustomProcessesHost" -> "Digital"
+        )
+        .post(
+          """{
+            |"ApplicationType" : "NDRC",
+            |"OriginatingSystem" : "Digital",
+            |"AcknowledgementReference" : "1234",
+            |  "Content": {
+            |  "CaseID" : "Risk-2507"
+            |       },""".stripMargin)
+        .futureValue
+      result.status shouldBe 400
+      result.json.as[JsObject] should (
+        haveProperty[JsObject](
+          "errorDetail",
+          haveProperty[String]("timestamp") and
+            haveProperty[String]("correlationId", be(correlationId)) and
+            haveProperty[String]("errorCode", be("400")) and
+            haveProperty[String]("errorMessage")
+        )
+        )
+    }
+
+    "amend response with 400 if the payload doesn't follow the schema" in {
+      val correlationId = ju.UUID.randomUUID().toString()
+      val result = wsClient
+        .url(s"$url/cpr/caserequest/ndrc/update/v1")
+        .withHttpHeaders(
+          "x-forwarded-host" -> "127.0.0.1",
+          "x-correlation-id" -> correlationId,
+          "date" -> "Fri, 06 Nov 2020 08:23:57 GMT",
+          "accept" -> "application/json",
+          "authorization" -> "Bearer 321367126376217367621736716362",
+          "environment" -> "stub",
+          "CustomProcessesHost" -> "Digital"
+        )
+        .post(Json.parse(
+          """{
+            |"ApplicationType" : "NDCR",
+            |"OriginatingSystem" : "Digital",
+            |"AcknowledgementReference" : "1234",
+            |  "Content": {
+            |  "ClaimDetails": {
+            |      "CaseID" : "Risk-2507",
+            |      "Description" : "update request for Risk-2507"
+            |    }
+            | }
+            |}""".stripMargin))
+        .futureValue
+      result.status shouldBe 400
+      result.json.as[JsObject] should (
+        haveProperty[JsObject](
+          "errorDetail",
+          haveProperty[String]("timestamp") and
+            haveProperty[String]("correlationId", be(correlationId)) and
+            haveProperty[String]("errorCode", be("400")) and
+            haveProperty[String]("errorMessage")
+        )
+        )
+    }
+
+    "amend response with 500 if an upstream error occurs" in {
+      val correlationId = ju.UUID.randomUUID().toString()
+      val result = wsClient
+        .url(s"$url/cpr/caserequest/ndrc/update/v1")
+        .withHttpHeaders(
+          "x-forwarded-host" -> "127.0.0.1",
+          "x-correlation-id" -> correlationId,
+          "date" -> "Fri, 06 Nov 2020 08:23:57 GMT",
+          "accept" -> "application/json",
+          "authorization" -> "Bearer 321367126376217367621736716362",
+          "environment" -> "stub",
+          "CustomProcessesHost" -> "Digital"
+        )
+        .post(Json.parse(
+          """{
+            |"ApplicationType" : "NDRC",
+            |"OriginatingSystem" : "Digital",
+            |"AcknowledgementReference" : "1234",
+            |  "Content": {
+            |    "CaseID" : "666",
+            |    "Description" : "update request for Risk-2507"
+            | }
+            |}""".stripMargin))
+        .futureValue
+      result.status shouldBe 500
+      result.json.as[JsObject] should (
+        haveProperty[JsObject](
+          "errorDetail",
+          haveProperty[String]("timestamp") and
+            haveProperty[String]("correlationId", be(correlationId)) and
+            haveProperty[String]("errorCode", be("400")) and
+            haveProperty[String]("errorMessage")
+        )
+        )
+    }
+  }
 }
