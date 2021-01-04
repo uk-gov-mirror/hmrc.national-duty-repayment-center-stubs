@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,14 +51,14 @@ object AmendCaseRequest {
 
     val DescriptionValidator: Validate[String] =
       check(
-        _.matches(DescriptionPattern),
-        s""""Invalid Description, should be one of [${DescriptionPattern.mkString(", ")}]"""
+        _.lengthMinMaxInclusive(1, 1500),
+        s""""Invalid length of Description, should be between 1 and 1500 (inclusive) character long"""
       )
 
     val CaseIDValidator: Validate[String] =
       check(
-        _.matches(CaseIDPattern),
-        s""""Invalid CaseID, should be one of [${CaseIDPattern.mkString(", ")}]"""
+        _.lengthMinMaxInclusive(2, 64),
+        s""""Invalid length of CaseID, should be between 2 and 64 (inclusive) character long"""
       )
 
     val validate: Validate[Content] = Validator(
