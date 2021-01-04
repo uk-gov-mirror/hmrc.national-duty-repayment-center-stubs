@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -461,7 +461,7 @@ object CreateCaseRequest {
     val EntryNumberPattern = """([0-9]{6}[0-9a-zA-Z]{1})"""
     val EntryDatePattern = """([0-9]{8})"""
     val IsVATRegisteredEnum = Seq("true", "false")
-    val EORIPattern = """(([G]{1}[B]{1}[0-9]{15})|([G]{1}[B]{1}[0-9]{12})|([G]{1}[B]{1}[P]{1}[R]{1}))"""
+    val EORIPattern = """(([G]{1}[B]{1}[0-9]{15})|([X]{1}[I]{1}[0-9]{15})|([G]{1}[B]{1}[0-9]{12})|([X]{1}[I]{1}[0-9]{12})|([G]{1}[B]{1}[P]{1}[R]{1}))"""
     val NamePattern = """([a-zA-Z0-9 ]{1,512})"""
     val AccountNamePattern = """([a-zA-Z0-9 ]{1,40})"""
     val SortCodePattern = """([0-9]{6})"""
