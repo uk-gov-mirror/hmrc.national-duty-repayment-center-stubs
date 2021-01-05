@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.connectors.MicroserviceAuthConnector
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.{AmendCaseRequest, CaseResponseSuccess, NDRCCreateCaseResponse, ResponseFailure, Validator}
+import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.{AmendCaseRequest, CaseResponseSuccess, NDRCAPIResponse, ResponseFailure, Validator}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
 
@@ -54,7 +54,7 @@ class NationalDutyRepaymentCenterStubController @Inject()(
         Future.successful(
           Created(
             Json.toJson(
-              NDRCCreateCaseResponse(
+              NDRCAPIResponse(
                 correlationId = correlationId,
                 result = Some("PC12010081330XGBNZJO04")
               )
@@ -74,7 +74,7 @@ class NationalDutyRepaymentCenterStubController @Inject()(
         Future.successful(
           Created(
             Json.toJson(
-              NDRCCreateCaseResponse(
+              NDRCAPIResponse(
                 correlationId = correlationId,
                 result = Some("PC12010081330XGBNZJO04")
               )
