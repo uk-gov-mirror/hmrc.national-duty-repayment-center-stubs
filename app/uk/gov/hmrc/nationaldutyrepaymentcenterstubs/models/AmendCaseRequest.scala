@@ -17,8 +17,6 @@
 package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models
 
 import play.api.libs.json.{Format, Json}
-import uk.gov.hmrc.nationaldutyrepaymentcenter.models.CreateCaseRequest.CommonValues
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.Validator.{Validate, check, checkProperty}
 
 /**
  * Create specified case in the PEGA system.
