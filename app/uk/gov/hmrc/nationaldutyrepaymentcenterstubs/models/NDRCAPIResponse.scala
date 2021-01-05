@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@ package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models
 
 import play.api.libs.json.{Format, Json}
 
-case class NDRCCreateCaseResponse(
+case class NDRCAPIResponse(
                                    correlationId: String,
                                    error: Option[ApiError] = None,
                                    result: Option[String] = None
                                  )
 
-object NDRCCreateCaseResponse {
-  implicit val formats: Format[NDRCCreateCaseResponse] =
-    Json.format[NDRCCreateCaseResponse]
+object NDRCAPIResponse {
+  implicit val formats: Format[NDRCAPIResponse] =
+    Json.format[NDRCAPIResponse]
 }
