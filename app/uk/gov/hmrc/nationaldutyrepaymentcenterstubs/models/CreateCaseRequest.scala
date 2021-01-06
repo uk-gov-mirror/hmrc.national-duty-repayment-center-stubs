@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.nationaldutyrepaymentcenter.models
+package uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models
 
 import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.Validator

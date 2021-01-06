@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.connectors.MicroserviceAuthConnector
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.{CaseResponseSuccess, NDRCCreateCaseResponse, ResponseFailure, Validator}
+import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models._
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
 
@@ -29,8 +29,6 @@ import play.api.libs.json.{JsValue, Json, Reads}
 import java.{util => ju}
 import java.time.format.DateTimeFormatter
 import java.time.{ZoneId, ZonedDateTime}
-
-import uk.gov.hmrc.nationaldutyrepaymentcenter.models.CreateCaseRequest
 
 import scala.util.Try
 
@@ -54,7 +52,27 @@ class NationalDutyRepaymentCenterStubController @Inject()(
         Future.successful(
           Created(
             Json.toJson(
-              NDRCCreateCaseResponse(
+              NDRCAPIResponse(
+                correlationId = correlationId,
+                result = Some("PC12010081330XGBNZJO04")
+              )
+            )
+          )
+        )
+      }
+    }
+
+  // POST /amend-case
+  def amendCaseMDTPStub: Action[JsValue] =
+    Action.async(parse.json) { implicit request =>
+      withAuthorised {
+        val correlationId = request.headers
+          .get("x-correlation-id")
+          .getOrElse(ju.UUID.randomUUID.toString())
+        Future.successful(
+          Created(
+            Json.toJson(
+              NDRCAPIResponse(
                 correlationId = correlationId,
                 result = Some("PC12010081330XGBNZJO04")
               )
@@ -95,6 +113,55 @@ class NationalDutyRepaymentCenterStubController @Inject()(
                     processingDateFormat.format(ZonedDateTime.now),
                     "Success",
                     "Case Created Successfully"
+                  )
+                )
+              )
+            else
+              errorMessageFor(payload) match {
+                case (code, message) =>
+                  InternalServerError(
+                    Json.toJson(
+                      ResponseFailure(
+                        processingDateFormat.format(ZonedDateTime.now),
+                        correlationId,
+                        code,
+                        message
+                      )
+                    )
+                  )
+              }
+          )
+        }
+      }
+    }
+  }
+
+  // POST /cpr/caserequest/ndrc/update/v1
+  def amendCaseEISStub: Action[String] = {
+
+    val errorScenarioCaseID: Set[String] = Set("666", "667")
+
+    def isSuccessCase(payload: AmendCaseRequest): Boolean =
+      !errorScenarioCaseID.contains(payload.Content.CaseID)
+
+    def errorMessageFor(payload: AmendCaseRequest): (String, String) =
+      payload.Content.CaseID match {
+        case "667" => ("400", "999 : PC12010081330XGBNZJO04")
+        case _     => ("400", "Invalid request")
+      }
+
+    Action.async(parse.tolerantText) { implicit request =>
+      withValidHeaders { correlationId =>
+        withValidCasePayload[AmendCaseRequest](correlationId) { payload =>
+          Future.successful(
+            if (isSuccessCase(payload))
+              Ok(
+                Json.toJson(
+                  CaseResponseSuccess(
+                    "PC12010081330XGBNZJO04",
+                    processingDateFormat.format(ZonedDateTime.now),
+                    "Success",
+                    "Case Updated Successfully"
                   )
                 )
               )
