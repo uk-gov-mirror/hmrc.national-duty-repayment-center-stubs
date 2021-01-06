@@ -34,7 +34,6 @@ case class AmendCaseRequest(
                                )
 
 object AmendCaseRequest {
-  import CommonValues._
   import Validator._
 
   implicit val formats: Format[AmendCaseRequest] = Json.format[AmendCaseRequest]
@@ -50,13 +49,13 @@ object AmendCaseRequest {
     val DescriptionValidator: Validate[String] =
       check(
         _.lengthMinMaxInclusive(1, 1500),
-        s""""Invalid length of Description, should be between 1 and 1500 (inclusive) character long"""
+        s""""Invalid length of Description, should be between 1 and 1500 (inclusive) characters long"""
       )
 
     val CaseIDValidator: Validate[String] =
       check(
         _.lengthMinMaxInclusive(2, 64),
-        s""""Invalid length of CaseID, should be between 2 and 64 (inclusive) character long"""
+        s""""Invalid length of CaseID, should be between 2 and 64 (inclusive) characters long"""
       )
 
     val validate: Validate[Content] = Validator(
@@ -65,14 +64,9 @@ object AmendCaseRequest {
     )
   }
 
-  object CommonValues {
-    val DescriptionPattern = """([a-zA-Z0-9- ]{1,1500})"""
-    val CaseIDPattern = """([a-zA-Z0-9-]{2,64})"""
-  }
-
   val AcknowledgementReferenceValidator: Validate[String] = check(
     _.lengthMinMaxInclusive(1, 32),
-    s""""Invalid length of AcknowledgementReference, should be between 1 and 32 (inclusive) character long"""
+    s""""Invalid length of AcknowledgementReference, should be between 1 and 32 (inclusive) characters long"""
   )
 
   val ApplicationTypeValidator: Validate[String] = check(
