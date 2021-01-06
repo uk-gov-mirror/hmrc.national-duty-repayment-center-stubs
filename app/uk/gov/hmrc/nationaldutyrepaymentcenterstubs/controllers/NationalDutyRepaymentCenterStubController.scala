@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.connectors.MicroserviceAuthConnector
-import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models.{AmendCaseRequest, CaseResponseSuccess, NDRCAPIResponse, ResponseFailure, Validator}
+import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.models._
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.nationaldutyrepaymentcenterstubs.wiring.AppConfig
 
@@ -29,8 +29,6 @@ import play.api.libs.json.{JsValue, Json, Reads}
 import java.{util => ju}
 import java.time.format.DateTimeFormatter
 import java.time.{ZoneId, ZonedDateTime}
-
-import uk.gov.hmrc.nationaldutyrepaymentcenter.models.CreateCaseRequest
 
 import scala.util.Try
 
