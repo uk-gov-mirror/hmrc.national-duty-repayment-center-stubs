@@ -93,15 +93,16 @@ class NationalDutyRepaymentCenterStubController @Inject()(
     val errorScenarioEPU: Set[String] = Set("666", "667")
 
     def isSuccessCase(payload: CreateCaseRequest): Boolean =
-      !errorScenarioEPU.contains(payload.Content.ClaimDetails.EntryDetails.EPU)
+      !errorScenarioEPU.contains(payload.Content.ClaimDetails.EPU)
 
     def errorMessageFor(payload: CreateCaseRequest): (String, String) =
-      payload.Content.ClaimDetails.EntryDetails.EPU match {
+      payload.Content.ClaimDetails.EPU match {
         case "667" => ("400", "999 : PC12010081330XGBNZJO04")
         case _     => ("400", "Invalid request")
       }
 
     Action.async(parse.tolerantText) { implicit request =>
+      println("THIS IS THE REQUEST: " + request.body)
       withValidHeaders { correlationId =>
         withValidCasePayload[CreateCaseRequest](correlationId) { payload =>
           Future.successful(

@@ -58,11 +58,9 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "ClaimedUnderArticle" : "117",
                              |      "Claimant" : "02",
                              |      "ClaimType" : "02",
-                             |      "EntryDetails" : {
-                             |        "EPU" : "777",
-                             |        "EntryNumber" : "123456A",
-                             |        "EntryDate" : "20200101"
-                             |       },
+                             |      "EPU" : "777",
+                             |      "EntryNumber" : "123456A",
+                             |      "EntryDate" : "20200101",
                              |      "ClaimReason" : "06",
                              |      "ClaimDescription" : "this is a claim description",
                              |      "DateReceived" : "20200805",
@@ -176,11 +174,9 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "Claimant" : "02",
                              |      "ClaimType" : "02",
                              |      "NoOfEntries" : "10",
-                             |      "EntryDetails" : {
-                             |        "EPU" : "777",
-                             |        "EntryNumber" : "123456A",
-                             |        "EntryDate" : "20200101"
-                             |       },
+                             |      "EPU" : "777",
+                             |      "EntryNumber" : "123456A",
+                             |      "EntryDate" : "20200101",
                              |      "ClaimReason" : "06",
                              |      "ClaimDescription" : "this is a claim description",
                              |      "DateReceived" : "20200805",
@@ -302,11 +298,10 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                   |      "ClaimedUnderArticle" : "117",
                   |      "Claimant" : "02",
                   |      "ClaimType" : "02",
-                  |      "EntryDetails" : {
-                  |        "EPU" : "777",
-                  |        "EntryNumber" : "123456A",
-                  |        "EntryDate" : "20200101"
-                  |       },""".stripMargin)
+                  |      "EPU" : "777",
+                  |      "EntryNumber" : "123456A",
+                  |      "EntryDate" : "20200101",
+                  |       """.stripMargin)
           .futureValue
         result.status shouldBe 400
         result.json.as[JsObject] should (
@@ -344,11 +339,8 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "ClaimedUnderArticle" : "117",
                              |      "Claimant" : "02",
                              |      "ClaimType" : "02",
-                             |      "EntryDetails" : {
-                             |        "EPU" : "777",
-                             |        "EntryNumber" : "123456A",
-                             |        "EntryDate" : "20200101"
-                             |       },
+                             |      "EPU" : "777",
+                             |      "EntryNumber" : "123456A",
                              |      "EntryDate" : "20200101",
                              |      "ClaimReason" : "06",
                              |      "ClaimDescription" : "this is a claim description",
@@ -476,11 +468,9 @@ class NationalDutyRepaymentCenterStubISpec extends ServerBaseISpec with AuthStub
                              |      "Claimant" : "02",
                              |      "ClaimType" : "02",
                              |      "NoOfEntries" : "10",
-                             |      "EntryDetails" : {
-                             |        "EPU" : "666",
-                             |        "EntryNumber" : "123456A",
-                             |        "EntryDate" : "20200101"
-                             |       },
+                             |      "EPU" : "666",
+                             |      "EntryNumber" : "123456A",
+                             |      "EntryDate" : "20200101",
                              |      "ClaimReason" : "06",
                              |      "ClaimDescription" : "this is a claim description",
                              |      "DateReceived" : "20200805",
