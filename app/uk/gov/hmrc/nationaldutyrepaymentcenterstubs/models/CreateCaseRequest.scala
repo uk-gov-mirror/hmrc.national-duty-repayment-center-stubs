@@ -67,7 +67,9 @@ object CreateCaseRequest {
                            ClaimedUnderArticle: String,
                            Claimant: String,
                            ClaimType: String,
-                           EntryDetails: EntryDetails,
+                           EPU: String,
+                           EntryNumber: String,
+                           EntryDate: String,
                            ClaimReason: String,
                            ClaimDescription: String,
                            DateReceived: String,
@@ -152,32 +154,6 @@ object CreateCaseRequest {
         s""""Invalid DeclarantRefNumber, should be one of [${DeclarantRefNumberPattern.mkString(", ")}]"""
       )
 
-
-    val validate: Validate[ClaimDetails] = Validator(
-      checkProperty(_.FormType, FormTypeValidator),
-      checkProperty(_.CustomRegulationType, CustomRegulationTypeValidator),
-      checkProperty(_.ClaimedUnderArticle, ClaimedUnderArticleValidator),
-      checkProperty(_.Claimant, ClaimantValidator),
-      checkProperty(_.ClaimType, ClaimTypeValidator),
-      checkProperty(_.ClaimReason, ClaimReasonValidator),
-      checkProperty(_.ClaimDescription, ClaimDescriptionValidator),
-      checkProperty(_.DateReceived, DateReceivedValidator),
-      checkProperty(_.ClaimDate, ClaimDateValidator),
-      checkProperty(_.PayeeIndicator, PayeeIndicatorValidator),
-      checkProperty(_.PaymentMethod, PaymentMethodValidator),
-      checkProperty(_.DeclarantRefNumber,DeclarantRefNumberValidator)
-    )
-  }
-
-  case class EntryDetails(
-                           EPU: String,
-                           EntryNumber: String,
-                           EntryDate: String
-                         )
-
-  object EntryDetails {
-    implicit val formats: Format[EntryDetails] = Json.format[EntryDetails]
-
     val EPUValidator: Validate[String] =
       check(
         _.matches(EPUPattern),
@@ -196,10 +172,23 @@ object CreateCaseRequest {
         s""""Invalid EntryDate, should be one of [${EntryDatePattern.mkString(", ")}]"""
       )
 
-    val validate: Validate[EntryDetails] = Validator(
+
+    val validate: Validate[ClaimDetails] = Validator(
+      checkProperty(_.FormType, FormTypeValidator),
+      checkProperty(_.CustomRegulationType, CustomRegulationTypeValidator),
+      checkProperty(_.ClaimedUnderArticle, ClaimedUnderArticleValidator),
+      checkProperty(_.Claimant, ClaimantValidator),
+      checkProperty(_.ClaimType, ClaimTypeValidator),
+      checkProperty(_.ClaimReason, ClaimReasonValidator),
+      checkProperty(_.ClaimDescription, ClaimDescriptionValidator),
       checkProperty(_.EPU, EPUValidator),
       checkProperty(_.EntryNumber, EntryNumberValidator),
-      checkProperty(_.EntryDate, EntryDateValidator)
+      checkProperty(_.EntryDate, EntryDateValidator),
+      checkProperty(_.DateReceived, DateReceivedValidator),
+      checkProperty(_.ClaimDate, ClaimDateValidator),
+      checkProperty(_.PayeeIndicator, PayeeIndicatorValidator),
+      checkProperty(_.PaymentMethod, PaymentMethodValidator),
+      checkProperty(_.DeclarantRefNumber,DeclarantRefNumberValidator)
     )
   }
 
