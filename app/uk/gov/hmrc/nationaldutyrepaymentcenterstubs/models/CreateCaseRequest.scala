@@ -76,7 +76,8 @@ object CreateCaseRequest {
                            ClaimDate: String,
                            PayeeIndicator: String,
                            PaymentMethod: String,
-                           DeclarantRefNumber: String
+                           DeclarantRefNumber: String,
+                           uploadedFiles: Seq[UploadedFile]
                          )
 
   object ClaimDetails {
