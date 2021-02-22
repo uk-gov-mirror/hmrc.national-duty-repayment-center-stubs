@@ -436,7 +436,7 @@ object CreateCaseRequest {
   object CommonValues {
     val FormTypeEnum = Seq("01")
     val CustomRegulationTypeEnum = Seq("01", "02")
-    val ClaimedUnderArticleEnum = Seq("117", "119", "120", "990")
+    val ClaimedUnderArticleEnum = Seq("117", "119", "120", "048", "049", "050", "051", "052", "053")
     val ClaimantEnum = Seq("01", "02")
     val ClaimTypeEnum = Seq("01", "02")
     val ClaimReasonEnum = Seq("01", "02", "03", "04", "05", "06", "07", "08", "09", "10")
