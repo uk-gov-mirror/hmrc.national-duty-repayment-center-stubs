@@ -401,12 +401,6 @@ object CreateCaseRequest {
         s""""Invalid CountryCode, should be one of [${CountryCodePattern.mkString(", ")}]"""
       )
 
-    val PostalCodeValidator: Validate[String] =
-      check(
-        _.matches(PostalCodePattern),
-        s""""Invalid PostalCode, should be one of [${PostalCodePattern.mkString(", ")}]"""
-      )
-
     val TelephoneNumberValidator: Validate[String] =
       check(
         _.matches(TelephoneNumberPattern),
@@ -425,7 +419,6 @@ object CreateCaseRequest {
       checkProperty(_.City, CityValidator),
       checkIfSome(_.Region, RegionValidator),
       checkProperty(_.CountryCode, CountryCodeValidator),
-      checkIfSome(_.PostalCode, PostalCodeValidator),
       checkIfSome(_.TelephoneNumber, TelephoneNumberValidator),
       checkIfSome(_.EmailAddress, EmailAddressValidator)
     )
@@ -466,7 +459,6 @@ object CreateCaseRequest {
     val CityPattern = """([a-zA-Z0-9]{1,64})"""
     val RegionPattern = """([a-zA-Z0-9]{1,64})"""
     val CountryCodePattern = """([a-zA-Z]{2,2})"""
-    val PostalCodePattern = """([a-zA-Z0-9]{6,9})"""
     val TelephoneNumberPattern = """([0]{1}[0-9]{1,10})"""
     val EmailAddressPattern = """([a-zA-Z0-9]{1,85})"""
   }
