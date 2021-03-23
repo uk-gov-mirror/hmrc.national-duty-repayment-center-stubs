@@ -466,7 +466,7 @@ object CreateCaseRequest {
     val CityPattern = """([a-zA-Z0-9]{1,64})"""
     val RegionPattern = """([a-zA-Z0-9]{1,64})"""
     val CountryCodePattern = """([a-zA-Z]{2,2})"""
-    val PostalCodePattern = """([a-zA-Z0-9]{6,9})"""
+    val PostalCodePattern = """([a-zA-Z0-9]{2,10})"""
     val TelephoneNumberPattern = """([0]{1}[0-9]{1,10})"""
     val EmailAddressPattern = """([a-zA-Z0-9]{1,85})"""
   }
