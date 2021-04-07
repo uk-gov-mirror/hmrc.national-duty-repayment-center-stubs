@@ -445,7 +445,7 @@ object CreateCaseRequest {
     val ClaimDatePattern = """([0-9]{8})"""
     val PayeeIndicatorEnum = Seq("01", "02", "03")
     val PaymentMethodEnum = Seq("01", "02", "03")
-    val DeclarantRefNumberPattern = """([a-zA-Z0-9]{1,50})"""
+    val DeclarantRefNumberPattern = """([A-Za-z0-9À-ÿ \!\)\(.,_/’'"&-]{1,50})"""
     val EPUPattern = """([0-9]{3})"""
     val EntryNumberPattern = """([0-9]{6}[0-9a-zA-Z]{1})"""
     val EntryDatePattern = """([0-9]{8})"""
